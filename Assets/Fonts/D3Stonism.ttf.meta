@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: ec384124aad25544cadc9e9e94cb572f
+timeCreated: 1485002843
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 72
+  forceTextureCase: -1
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: D3 Stonism
+  fontNames:
+  - D3 Stonism
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
