@@ -5,9 +5,6 @@ using System;
 using DG.Tweening;
 
 public class PlanetController : MonoBehaviour {
-	public int RoomId = 1;
-	public string RegionType = "w";
-	public float CalculatedForce = 1;
 	[SerializeField]
 	private bool useServerControls = false;
 	[SerializeField]
@@ -20,28 +17,20 @@ public class PlanetController : MonoBehaviour {
 	private Vector3 minSpeed = Vector3.one * -5;
 	[SerializeField]
 	private Vector3 maxSpeed = Vector3.one * 5;
-	[SerializeField]
-	private string requestEndPoint = "http://project.kinix.org/ggj2017/temp/index.php";
-	[SerializeField]
-	private string operationPath = "?room=1&region=w&force=1";
 
-	// Use this for initialization
-	void Start () {
-		Coroutine gameLoop = StartCoroutine(GameLoop());
+	void OnEnable () {
+		ServerManager.Instance.OnServerFrame += OnServerFrame;
+	}
+
+	void OnDisable () {
+		ServerManager.Instance.OnServerFrame -= OnServerFrame;
 	}
 	
 	// Update is called once per frame
-	IEnumerator GameLoop () {
-		while (true) {
-			if (useServerControls) {
-				WWW requestObj = new WWW (requestEndPoint + operationPath); //String.Format (operationPath, RoomId, RegionType, CalculatedForce));
-				yield return requestObj;
-				ServerFrame resultObj = JsonUtility.FromJson<ServerFrame> (requestObj.text);
-				transform.DOMove(new Vector3 (resultObj.x, resultObj.y),0.2f).SetEase(Ease.InOutElastic);
-			} else {
-				transform.position = GetPlanetPosition ();
-			}
-			yield return new WaitForSeconds (0.5f);
+	private void OnServerFrame (object sender, ServerFrame serverFrame) {
+		if (useServerControls) {
+			transform.DOKill();
+			transform.DOMove(new Vector3 (serverFrame.x, serverFrame.y),serverFrame.deltaTime).SetEase(Ease.Linear);
 		}
 	}
 
