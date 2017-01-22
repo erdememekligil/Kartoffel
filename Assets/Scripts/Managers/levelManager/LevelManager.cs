@@ -19,18 +19,20 @@ public class LevelManager : SingletonComponent<LevelManager> {
 		Year = sf.health;
 		if (Year >= 1980){
 			EraLevel = 3;
-			ChangeTheme ();
+			ChangeTheme (true);
 		}else if (Year >= 1000){
 			EraLevel = 2;
-			ChangeTheme (); 
+			ChangeTheme (true); 
 		}else{
 			EraLevel = 1;
-			ChangeTheme (); 
+			ChangeTheme (false); 
 		}
 	}
 
-	public void ChangeTheme (){
+	public void ChangeTheme (bool IsLevelUp){
 		string path = "Textures/" + GetEraName () + "/";
+		if(IsLevelUp)
+			GameObject.Instantiate (Resources.Load<GameObject>("Effects/ShakeEffect"), Vector3.zero, Quaternion.Euler (new Vector3 (0, 0, UnityEngine.Random.Range(0,360))),Planet.transform).transform.localPosition = Vector3.zero;
 		Planet.GetComponent<SpriteRenderer> ().sprite = GetSprite (path + "Planet");
 
 		foreach (Transform bg in BackgroundWrapper) {
