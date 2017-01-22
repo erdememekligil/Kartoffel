@@ -10,7 +10,8 @@ public class UIManager : MonoBehaviour
     private GameObject lobbyPanel;
     [SerializeField]
     private GameObject creditsPanels;
-
+	[SerializeField]
+	private GameObject jumpButton;
     [SerializeField]
     private InputField roomField;
 
@@ -25,6 +26,10 @@ public class UIManager : MonoBehaviour
 
     private int year;
     private string yearString = "Year: ";
+
+	void Start(){
+		jumpButton.GetComponent<Button> ().onClick.AddListener(InputManager.Instance.Dojump);
+	}
 
     void Update()
     {
@@ -54,9 +59,32 @@ public class UIManager : MonoBehaviour
 
     public void BeginGame(int Direction)
     {
+		// N =0 , E = 1, S = 2 , W = 3
+		int room;
+		ServerManager.Instance.RoomId = int.TryParse(roomField.text, out room) ? int.Parse(roomField.text): 1;
+		string directionString = "";
+		switch (Direction) {
+		case 0:
+			directionString = "n";
+			break;
+		case 1:
+			directionString = "w";
+			break;
+		case 2:
+			directionString = "s";
+			break;
+		case 3:
+			directionString = "e";
+			break;
+		default:
+			directionString = "n";
+			break;
+		}
+		ServerManager.Instance.RegionType = directionString;
+		ServerManager.Instance.SetReady();
         lobbyPanel.SetActive(false);
         menuPanel.SetActive(false);
-
+		jumpButton.SetActive (true);
     }
 
     public void ShowCredits()

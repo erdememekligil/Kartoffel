@@ -6,6 +6,10 @@ using DG.Tweening;
 public class MeteroidController : MonoBehaviour {
 	public int id = 0;
 
+	public void Start(){
+		transform.FindChild("Line").GetComponent<SpriteRenderer>().DOFade(0.58f,3).SetEase (Ease.InCubic);
+	}
+
 	public void SetId(int i){
 		id = i;
 		Debug.Log ("Set id of meteor " + i);

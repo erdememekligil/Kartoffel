@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ServerFrame {
 	public long time = 0;
+	public int health = 0;
 	public float deltaTime = 0;
 	public float x = 0;
 	public float y = 0;
