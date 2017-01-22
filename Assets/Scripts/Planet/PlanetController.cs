@@ -70,6 +70,7 @@ public class PlanetController : MonoBehaviour {
 		GameObject exp = GameObject.Instantiate (explosionEffect, Vector3.zero, Quaternion.Euler (new Vector3 (0, 0, UnityEngine.Random.Range(0,360))));
 		exp.transform.SetParent(transform);
 		exp.transform.localPosition = Vector3.zero;
+		Camera.main.DOShakePosition (1, 3, 10, 90);
 	}
 
 	public Vector3 GetPlanetPosition(){

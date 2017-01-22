@@ -23,7 +23,7 @@ public class CameraController : MonoBehaviour {
 		if (TargetToFollow != null) {
 			//transform.DOMove(TargetToFollow.position, sf.deltaTime).SetEase(Ease.Linear);
 			//			transform.position.Set (TargetToFollow.position.x, TargetToFollow.position.y, TargetToFollow.position.z);
-			transform.position = TargetToFollow.position;
+			transform.parent.position = TargetToFollow.position;
 		}
 	}
 
