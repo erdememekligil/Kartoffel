@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.Networking;
 
 public class ServerManager : SingletonComponent<ServerManager> {
 	public int RoomId = 1;
@@ -31,10 +32,11 @@ public class ServerManager : SingletonComponent<ServerManager> {
 	IEnumerator ServerRefresh () {
 		while (true) {
 			if (ServerManager.Instance.IsReady) {
-				WWW requestObj = new WWW (requestEndPoint + String.Format (operationPath, RoomId, RegionType, CalculatedForce));
+				UnityWebRequest requestObj = UnityWebRequest.Get(requestEndPoint + String.Format (operationPath, RoomId, RegionType, CalculatedForce));
 				CalculatedForce = 0;
-				yield return requestObj;
-				ServerFrame receivedFrame = JsonUtility.FromJson<ServerFrame> (requestObj.text);
+				yield return requestObj.Send();
+
+				ServerFrame receivedFrame = JsonUtility.FromJson<ServerFrame> (requestObj.downloadHandler.text);
 				if (ServerFrame == null) {
 					ServerFrame = receivedFrame;
 					Transform background = GameObject.Find ("BG").transform; //TODO: parametric
@@ -57,7 +59,7 @@ public class ServerManager : SingletonComponent<ServerManager> {
 					}
 				}
 			}
-			yield return new WaitForSeconds (0.25f);
+			yield return new WaitForSeconds (0.5f);
 		}
 	}
 

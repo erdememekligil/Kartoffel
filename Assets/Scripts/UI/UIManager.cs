@@ -16,7 +16,7 @@ public class UIManager : MonoBehaviour
     private InputField roomField;
 
     [SerializeField]
-    private Text yearText;
+	private Text yearText,EraText;
     [SerializeField]
     private float tweenDuration = 1;
 
@@ -25,6 +25,7 @@ public class UIManager : MonoBehaviour
 
 	void Start(){
 		jumpButton.GetComponent<Button> ().onClick.AddListener(InputManager.Instance.Dojump);
+		AudioManager.Instance.PlayMusic ("Jumpin Jack");
 	}
 
 	// Use this for initialization
@@ -81,7 +82,8 @@ public class UIManager : MonoBehaviour
 
 	private void OnServerFrame(object sender, ServerFrame serverFrame) 
 	{
-		SetDate (serverFrame.time);
+		EraText.text = LevelManager.Instance.GetEraName ();
+		SetDate (LevelManager.Instance.Year);
 	}
 
 
