@@ -25,6 +25,7 @@ public class UIManager : MonoBehaviour
 
 	void Start(){
 		jumpButton.GetComponent<Button> ().onClick.AddListener(InputManager.Instance.Dojump);
+		AudioManager.Instance.PlayMusic ("Jumpin Jack");
 	}
 
 	// Use this for initialization
