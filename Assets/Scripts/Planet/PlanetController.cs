@@ -20,7 +20,7 @@ public class PlanetController : MonoBehaviour {
 	[SerializeField]
 	private Vector3 maxSpeed = Vector3.one * 5;
 	[SerializeField]
-	private float distanceThreshold = 20f;
+	private float distanceThreshold = 40f;
 	[SerializeField]
 	private Animator[] jumperAnimators;
 

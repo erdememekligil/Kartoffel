@@ -37,7 +37,7 @@ public class MeteroidManager : MonoBehaviour{
 		foreach (Meteroid m in meteroids) {
 			MeteroidController mc = activeMeteroids.Find(x => x.id == m.id);
 			if (mc == null) {
-				GameObject gmc = GameObject.Instantiate (meteroidPrefabs [UnityEngine.Random.Range (0, meteroidPrefabs.Count)], 
+				GameObject gmc = GameObject.Instantiate (meteroidPrefabs[LevelManager.Instance.EraLevel-1], 
 					new Vector3 (m.x, m.y), Quaternion.Euler (new Vector3 (0, 0, 180 - m.angle * Mathf.Rad2Deg)));
 				gmc.transform.SetParent(transform);
 				mc = gmc.GetComponent<MeteroidController> ();

@@ -16,7 +16,7 @@ public class UIManager : MonoBehaviour
     private InputField roomField;
 
     [SerializeField]
-    private Text yearText;
+	private Text yearText,EraText;
     [SerializeField]
     private float tweenDuration = 1;
 
@@ -81,7 +81,8 @@ public class UIManager : MonoBehaviour
 
 	private void OnServerFrame(object sender, ServerFrame serverFrame) 
 	{
-		SetDate (serverFrame.time);
+		EraText.text = LevelManager.Instance.GetEraName ();
+		SetDate (LevelManager.Instance.Year);
 	}
 
 
