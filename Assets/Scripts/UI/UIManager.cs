@@ -20,28 +20,28 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private float tweenDuration = 1;
 
-
-    [SerializeField]
-    private int yearTest;
-
-    private int year;
+	private long year;
     private string yearString = "Year: ";
 
 	void Start(){
 		jumpButton.GetComponent<Button> ().onClick.AddListener(InputManager.Instance.Dojump);
 	}
 
+	// Use this for initialization
+	void OnEnable () {
+		ServerManager.Instance.OnServerFrame += OnServerFrame;
+	}
+
+	void OnDisable () {
+		ServerManager.Instance.OnServerFrame -= OnServerFrame;
+	}
+
     void Update()
     {
         yearText.text = yearString + year.ToString();
-
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            SetDate(year + yearTest);
-        }
     } 
 
-    public void SetDate(int date)
+	public void SetDate(long date)
     {
         DOTween.To(() => year, x => year = x, date, tweenDuration);
     }
@@ -57,30 +57,12 @@ public class UIManager : MonoBehaviour
 
     }
 
-    public void BeginGame(int Direction)
+	public void BeginGame(string direction)
     {
-		// N =0 , E = 1, S = 2 , W = 3
 		int room;
 		ServerManager.Instance.RoomId = int.TryParse(roomField.text, out room) ? int.Parse(roomField.text): 1;
-		string directionString = "";
-		switch (Direction) {
-		case 0:
-			directionString = "n";
-			break;
-		case 1:
-			directionString = "w";
-			break;
-		case 2:
-			directionString = "s";
-			break;
-		case 3:
-			directionString = "e";
-			break;
-		default:
-			directionString = "n";
-			break;
-		}
-		ServerManager.Instance.RegionType = directionString;
+
+		ServerManager.Instance.RegionType = direction;
 		ServerManager.Instance.SetReady();
         lobbyPanel.SetActive(false);
         menuPanel.SetActive(false);
@@ -96,5 +78,11 @@ public class UIManager : MonoBehaviour
     {
         creditsPanels.SetActive(false);
     }
+
+	private void OnServerFrame(object sender, ServerFrame serverFrame) 
+	{
+		SetDate (serverFrame.time);
+	}
+
 
 }

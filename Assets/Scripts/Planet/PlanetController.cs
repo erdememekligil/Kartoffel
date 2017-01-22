@@ -21,6 +21,8 @@ public class PlanetController : MonoBehaviour {
 	private Vector3 maxSpeed = Vector3.one * 5;
 	[SerializeField]
 	private float distanceThreshold = 20f;
+	[SerializeField]
+	private Animator[] jumperAnimators;
 
 	void OnEnable () {
 		ServerManager.Instance.OnServerFrame += OnServerFrame;
@@ -48,6 +50,19 @@ public class PlanetController : MonoBehaviour {
 			Vector3 pos = GetPlanetPosition();
 			transform.position = pos;
 		}
+
+		if (serverFrame.jumpers.n == 1) {
+			jumperAnimators[0].SetTrigger ("Jump");
+		} 
+		if (serverFrame.jumpers.e == 1) {
+			jumperAnimators[1].SetTrigger ("Jump");
+		} 
+		if (serverFrame.jumpers.s == 1) {
+			jumperAnimators[2].SetTrigger ("Jump");
+		} 
+		if (serverFrame.jumpers.w == 1) {
+			jumperAnimators[3].SetTrigger ("Jump");
+		} 
 	}
 
 	private void OnPlanetDamaged (object sender, ServerFrame serverFrame, long diffHealth) {
